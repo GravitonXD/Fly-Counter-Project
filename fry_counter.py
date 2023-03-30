@@ -56,13 +56,13 @@ def counter():
         300, if black_pixel_count is between 77774 and 87826 and contour length is between 1238 to 1580
         400, if black_pixel_count is between 102196 and 110531 and contour length is between 1409 to 1590
     """
-    if 19963 < black_pixel_count < 21307 and 176 < len(contours) < 228:
+    if 19963 <= black_pixel_count <= 21307 and 176 <= len(contours) <= 228:
         return 100, img
-    elif 62611 < black_pixel_count < 67718 and 1243 < len(contours) < 1436:
+    elif 62611 <= black_pixel_count <= 67718 and 1243 <= len(contours) <= 1436:
         return 200, img
-    elif 77774 < black_pixel_count < 87826 and 1238 < len(contours) < 1580:
+    elif 77774 <= black_pixel_count <= 87826 and 1238 <= len(contours) <= 1580:
         return 300, img
-    elif 102196 < black_pixel_count < 110531 and 1409 < len(contours) < 1590:
+    elif 102196 <= black_pixel_count <= 110531 and 1409 <= len(contours) <= 1590:
         return 400, img
     else:
         return 0, img
