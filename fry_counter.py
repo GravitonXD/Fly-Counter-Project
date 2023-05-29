@@ -1,6 +1,5 @@
 import cv2 as cv
 import numpy as np
-import os
 
 # Function for opening image
 def get_img(img_path, grayscale=True):
@@ -67,6 +66,8 @@ def fry_counter(img_path):
 
     # Length of Contours
     len_contours = len(contour_detection(thres_img))
+
+    cv.imshow('img_diff', diff_img)
 
     """
         FRY COUNT
