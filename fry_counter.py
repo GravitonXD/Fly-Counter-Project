@@ -1,5 +1,7 @@
 import cv2 as cv
 import numpy as np
+import joblib
+import pandas as pd
 
 # Function for opening image
 def get_img(img_path, grayscale=True):
@@ -67,26 +69,11 @@ def fry_counter(img_path):
     # Length of Contours
     len_contours = len(contour_detection(thres_img))
 
-    cv.imshow('img_diff', diff_img)
+    X = pd.DataFrame({'white_pixels': [white_pixels], 'contours': [len_contours]})
+    knn = joblib.load("./fry_knn.pkl")
+    y_pred = knn.predict(X)
 
-    """
-        FRY COUNT
-        100, if white_pixels is between 1265864 and 1270473 and contour length is between 748 to 893
-        200, if white_pixels is between 1221275 and 1229159 and contour length is between 2233 to 2571
-        300, if white_pixels is between 1196588 and 1216145 and contour length is between 2516 to 2955
-        400, if white_pixels is between 1160103 and 1172078 and contour length is between 2982 to 3476
-    """
-
-    if white_pixels >= 1265864 and white_pixels <= 1270473 and len_contours >= 748 and len_contours <= 893:
-        return 100
-    elif white_pixels >= 1221275 and white_pixels <= 1229159 and len_contours >= 2233 and len_contours <= 2571:
-        return 200
-    elif white_pixels >= 1196588 and white_pixels <= 1216145 and len_contours >= 2516 and len_contours <= 2955:
-        return 300
-    elif white_pixels >= 1160103 and white_pixels <= 1172078 and len_contours >= 2982 and len_contours <= 3476:
-        return 400
-    else:
-        raise Exception("Fry Count Cannot Be Determined")
+    return y_pred[0]
 
 
 def fry_detector(img_path, fry_count):
