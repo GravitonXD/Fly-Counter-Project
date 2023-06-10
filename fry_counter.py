@@ -75,6 +75,8 @@ def fry_counter(img_path):
 
     return y_pred[0]
 
+def detection_accuracy(n, c):
+    return ((c-abs(n-c))/c) * 100
 
 def fry_detector(img_path, fry_count):
     img_kernels = {
@@ -113,11 +115,16 @@ def fry_detector(img_path, fry_count):
     # Draw Contours
     contours = contour_detection(thres_img)
 
+    # Detection Accuracy
+    da = detection_accuracy(len(contours), fry_count)
+
     # Display the image
     img_final = cv.drawContours(img, contours, -1, (0, 255, 0), 1)
     cv.namedWindow('Fry Counter and Detector', cv.WINDOW_NORMAL)
     cv.resizeWindow('Fry Counter and Detector', 600, 540)
-    cv.putText(img_final, f'~Fry Count: {fry_count}', (600//2,540//2), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv.LINE_AA)
+    cv.putText(img_final, f'Classifier [KNN]: {fry_count}', (200,200), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv.LINE_AA)
+    cv.putText(img_final, f'Actual Detected Number: {len(contours)}', (200,250), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv.LINE_AA)
+    cv.putText(img_final, f'Detection Accuracy: {da}%', (200,300), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv.LINE_AA)
     cv.imshow('Fry Counter and Detector', img_final)
     cv.waitKey(0)
     cv.destroyAllWindows()
